@@ -1,0 +1,65 @@
+<div class="container">
+  <h1>Calculate Distance</h1>
+  <p>Enter 2 sets of coordinates to calculate the distance between the two points, (calculation assumes the earth is a sphere).</p>
+
+  <form [formGroup]="caclulateForm">
+
+    <div class="coordinate-box">
+      <div class="form-group half-width-form">
+        <label for="latitudeA">From Latitude ° N</label>
+        <input type="text" class="form-control" id="latitudeA" required formControlName="latitudeA" (ngModelChange)="fromFieldValid()">
+        <div *ngFor="let validation of coordinate_validation_messages.latitudeA">
+          <div class="error-message" *ngIf="caclulateForm.get('latitudeA').hasError(validation.type) && (caclulateForm.get('latitudeA').dirty || caclulateForm.get('latitudeA').touched)">{{validation.message}}</div>
+        </div>
+      </div>
+
+      <div class="form-group half-width-form">
+        <label for="longitudeA">From Longitude ° E</label>
+        <input type="text" class="form-control" id="longitudeA" required formControlName="longitudeA" (ngModelChange)="fromFieldValid()">
+        <div *ngFor="let validation of coordinate_validation_messages.longitudeA">
+          <div class="error-message" *ngIf="caclulateForm.get('longitudeA').hasError(validation.type) && (caclulateForm.get('longitudeA').dirty || caclulateForm.get('longitudeA').touched)">{{validation.message}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="coordinate-box">
+      <div class="form-group half-width-form">
+        <label for="latitudeB">To Latitude ° N</label>
+        <input type="text" class="form-control" id="latitudeB" required formControlName="latitudeB">
+        <div *ngFor="let validation of coordinate_validation_messages.latitudeB">
+          <div class="error-message" *ngIf="caclulateForm.get('latitudeB').hasError(validation.type) && (caclulateForm.get('latitudeB').dirty || caclulateForm.get('latitudeB').touched)">{{validation.message}}</div>
+        </div>
+      </div>
+
+      <div class="form-group half-width-form">
+        <label for="longitudeB">To Longitude ° E</label>
+        <input type="text" class="form-control" id="longitudeB" required formControlName="longitudeB">
+        <div *ngFor="let validation of coordinate_validation_messages.longitudeB">
+          <div class="error-message" *ngIf="caclulateForm.get('longitudeB').hasError(validation.type) && (caclulateForm.get('longitudeB').dirty || caclulateForm.get('longitudeB').touched)">{{validation.message}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="coordinate-box">
+      <div class="form-group">
+        <label for="unitType">Unit of Measurement</label>
+        <select class="form-control" id="unit" required formControlName="unitType">
+          <option *ngFor="let type of unitTypes" [ngValue]="type">{{type}}</option>
+        </select>
+        <div *ngFor="let validation of coordinate_validation_messages.unitType">
+          <div class="error-message" *ngIf="caclulateForm.get('unitType').hasError(validation.type) && (caclulateForm.get('unitType').dirty || caclulateForm.get('unitType').touched)">{{validation.message}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button type="button" class="btn custom-button" (click)="reset()">Clear</button>
+      <button type="button" class="btn custom-button" (click)="setExampleCoordinates()">Example</button>
+      <button type="submit" class="btn custom-button" (click)="submitCalculation()">Calculate</button>
+    </div>
+  </form>
+  <br />
+  <h2>Results</h2>
+  <div class="results">
+    <div *ngIf="calculateError">Error: {{calculateError}}</div>
+    <div *ngIf="distance">Distance: {{distance}}</div>
+    <div *ngIf="details">Details: {{details}}</div>
+  </div>
+</div>
